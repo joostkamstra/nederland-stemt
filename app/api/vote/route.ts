@@ -3,14 +3,44 @@ import { defaultPriorities } from '@/lib/priorities';
 
 // In-memory storage for MVP (will be replaced with database)
 const voteStorage: { [priorityId: string]: number } = {};
+interface Proposal {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  votes: number;
+  submittedAt: string;
+  status: 'pending' | 'approved' | 'rejected';
+}
+
+const proposalStorage: Proposal[] = [];
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { priorities } = body;
+    const { priorities, action, proposalId } = body;
 
-    // Validation
-    if (!priorities || !Array.isArray(priorities)) {
+    // Handle proposal approval/rejection
+    if (action === 'approve' && proposalId) {
+      // In a real app, this would update the database
+      // For now, we'll just return success
+      console.log('Proposal approved:', proposalId);
+      return NextResponse.json({
+        success: true,
+        message: 'Proposal approved successfully'
+      });
+    }
+
+    if (action === 'reject' && proposalId) {
+      console.log('Proposal rejected:', proposalId);
+      return NextResponse.json({
+        success: true,
+        message: 'Proposal rejected successfully'
+      });
+    }
+
+    // Handle regular votes - validate priorities
+    if (!Array.isArray(priorities)) {
       return NextResponse.json(
         { error: 'Invalid priorities array' },
         { status: 400 }
@@ -72,8 +102,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const type = searchParams.get('type');
+
+    // Return proposals if requested
+    if (type === 'proposals') {
+      return NextResponse.json({
+        proposals: proposalStorage,
+        lastUpdated: new Date().toISOString()
+      });
+    }
+
     // Return current vote counts
     const results = defaultPriorities.map(priority => ({
       id: priority.id,

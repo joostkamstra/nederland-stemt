@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+// import SuccessModal from '@/components/SuccessModal';
 
 export default function NewPriorityPage() {
   const [title, setTitle] = useState('');
@@ -9,6 +10,15 @@ export default function NewPriorityPage() {
   const [category, setCategory] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedProposal, setSubmittedProposal] = useState<{
+    id: string;
+    title: string;
+    description: string;
+    category: string;
+    votes: number;
+    submittedAt: string;
+    status: string;
+  } | null>(null);
   const router = useRouter();
 
   const categories = [
@@ -37,9 +47,11 @@ export default function NewPriorityPage() {
     setIsSubmitting(true);
 
     try {
-      // For MVP, just store locally and show success
+      // Generate unique proposal ID
+      const proposalId = `proposal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
       const newPriority = {
-        id: title.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+        id: proposalId,
         title: title.trim(),
         description: description.trim(),
         category,
@@ -48,16 +60,13 @@ export default function NewPriorityPage() {
         status: 'pending'
       };
 
-      // Store in localStorage for now
+      // Store in localStorage for admin panel
       const existingSubmissions = JSON.parse(localStorage.getItem('nederland-stemt-submissions') || '[]');
       existingSubmissions.push(newPriority);
       localStorage.setItem('nederland-stemt-submissions', JSON.stringify(existingSubmissions));
 
+      setSubmittedProposal(newPriority);
       setIsSubmitted(true);
-      
-      setTimeout(() => {
-        router.push('/');
-      }, 3000);
 
     } catch (error) {
       console.error('Submission failed:', error);
@@ -66,27 +75,7 @@ export default function NewPriorityPage() {
     }
   };
 
-  if (isSubmitted) {
-    return (
-      <div className="max-w-2xl mx-auto px-4 py-12">
-        <div className="text-center bg-green-50 rounded-lg p-8">
-          <div className="text-6xl mb-4">✓</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
-            Bedankt voor je voorstel!
-          </h1>
-          <p className="text-gray-600 mb-6">
-            We hebben je prioriteit ontvangen. We bekijken alle voorstellen en voegen relevante onderwerpen toe aan toekomstige stemmingen.
-          </p>
-          <button
-            onClick={() => router.push('/')}
-            className="bg-[#0052CC] text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-          >
-            Terug naar Home
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // Removed unused mock priority variable
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-12">
@@ -187,6 +176,56 @@ export default function NewPriorityPage() {
           </a>
         </p>
       </div>
+
+      {/* Custom success modal for proposals */}
+      {isSubmitted && submittedProposal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black opacity-50" onClick={() => router.push('/')} />
+          
+          <div className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-blue-50 to-orange-50 opacity-60" />
+            
+            <div className="relative z-10 text-center pt-8 pb-6 px-6">
+              <div className="relative inline-flex items-center justify-center w-20 h-20 mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-500 rounded-full animate-pulse" />
+                <div className="absolute inset-1 bg-white rounded-full" />
+                <svg className="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                Voorstel Ontvangen! 🎉
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Bedankt voor je bijdrage aan de democratie!
+              </p>
+              
+              <div className="bg-white bg-opacity-70 rounded-xl p-4 mb-6">
+                <h3 className="font-semibold text-gray-900 mb-2">Je voorstel:</h3>
+                <div className="text-left">
+                  <div className="font-medium text-gray-900 text-sm">{submittedProposal.title}</div>
+                  <div className="text-xs text-gray-600 mt-1">{submittedProposal.category}</div>
+                  <div className="text-xs text-gray-500 mt-2">ID: {submittedProposal.id}</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="relative z-10 p-6 bg-gray-50 bg-opacity-80">
+              <button
+                onClick={() => router.push('/')}
+                className="w-full bg-gradient-to-r from-[#0052CC] to-[#004699] text-white py-3 px-6 rounded-xl font-semibold text-sm hover:from-[#0066FF] hover:to-[#0052CC] transition-all duration-200 shadow-lg"
+              >
+                Terug naar Home
+              </button>
+              
+              <p className="text-xs text-gray-500 text-center mt-3">
+                We bekijken alle voorstellen voor toekomstige stemmingen
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
