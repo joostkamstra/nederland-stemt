@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { validateProposal, isSpamSubmission, generateCSRFToken, checkRateLimit } from '@/lib/security';
 // import SuccessModal from '@/components/SuccessModal';
 
 export default function NewPriorityPage() {
@@ -19,6 +21,8 @@ export default function NewPriorityPage() {
     submittedAt: string;
     status: string;
   } | null>(null);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [csrfToken] = useState(() => generateCSRFToken());
   const router = useRouter();
 
   const categories = [
@@ -41,8 +45,26 @@ export default function NewPriorityPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationErrors([]);
     
-    if (!title.trim() || !description.trim() || !category) return;
+    // Rate limiting check
+    if (!checkRateLimit('proposal_submission', 3, 300000)) { // 3 submissions per 5 minutes
+      setValidationErrors(['Te veel voorstellen ingediend. Probeer over 5 minuten opnieuw.']);
+      return;
+    }
+
+    // Validation
+    const validation = validateProposal(title, description, category);
+    if (!validation.isValid) {
+      setValidationErrors(validation.errors);
+      return;
+    }
+
+    // Spam detection
+    if (isSpamSubmission(title, description)) {
+      setValidationErrors(['Dit voorstel lijkt op een eerder ingediend voorstel.']);
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -57,13 +79,16 @@ export default function NewPriorityPage() {
         category,
         votes: 0,
         submittedAt: new Date().toISOString(),
-        status: 'pending'
+        status: 'pending',
+        csrfToken // Include CSRF token for security
       };
 
       // Store in localStorage for admin panel
-      const existingSubmissions = JSON.parse(localStorage.getItem('nederland-stemt-submissions') || '[]');
-      existingSubmissions.push(newPriority);
-      localStorage.setItem('nederland-stemt-submissions', JSON.stringify(existingSubmissions));
+      if (typeof window !== 'undefined') {
+        const existingSubmissions = JSON.parse(localStorage.getItem('nederland-stemt-submissions') || '[]');
+        existingSubmissions.push(newPriority);
+        localStorage.setItem('nederland-stemt-submissions', JSON.stringify(existingSubmissions));
+      }
 
       setSubmittedProposal(newPriority);
       setIsSubmitted(true);
@@ -89,6 +114,34 @@ export default function NewPriorityPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* CSRF Token - Hidden Field */}
+        <input type="hidden" name="csrf_token" value={csrfToken} />
+        
+        {/* Validation Errors */}
+        {validationErrors.length > 0 && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">
+                  Er zijn problemen met je voorstel:
+                </h3>
+                <div className="mt-2 text-sm text-red-700">
+                  <ul className="list-disc pl-5 space-y-1">
+                    {validationErrors.map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
             Titel van de prioriteit *
@@ -171,9 +224,9 @@ export default function NewPriorityPage() {
       <div className="mt-8 text-center">
         <p className="text-gray-500 text-sm">
           Wil je eerst stemmen op bestaande prioriteiten?{' '}
-          <a href="/stem" className="text-[#0052CC] hover:underline">
+          <Link href="/stem" className="text-[#0052CC] hover:underline">
             Ga naar stemmen
-          </a>
+          </Link>
         </p>
       </div>
 

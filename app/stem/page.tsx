@@ -1,22 +1,35 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import type { Metadata } from 'next';
 import { useRouter } from 'next/navigation';
 import { defaultPriorities } from '@/lib/priorities';
 import { storage } from '@/lib/storage';
+import EmailCapture from '@/components/EmailCapture';
+import { ClickTracker } from '@/components/EventTracker';
+import { analytics } from '@/components/AnalyticsTracker';
+import OnboardingModal, { useOnboarding } from '@/components/OnboardingModal';
 
 export default function VotePage() {
   const [selectedPriorities, setSelectedPriorities] = useState<string[]>([]);
   const [hasVoted, setHasVoted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showEmailCapture, setShowEmailCapture] = useState(false);
   const router = useRouter();
+  
+  // Onboarding hook
+  const {
+    shouldShowOnboarding,
+    completeOnboarding,
+    skipOnboarding
+  } = useOnboarding();
 
   useEffect(() => {
     if (storage.hasVotedThisWeek()) {
       setHasVoted(true);
       const voteData = storage.getVotes();
       if (voteData) {
-        setSelectedPriorities(voteData.votedPriorities);
+        setSelectedPriorities(voteData.priorities);
       }
     }
   }, []);
@@ -25,10 +38,33 @@ export default function VotePage() {
     if (hasVoted) return;
 
     setSelectedPriorities(prev => {
-      if (prev.includes(priorityId)) {
+      const isAlreadySelected = prev.includes(priorityId);
+      const priority = defaultPriorities.find(p => p.id === priorityId);
+      
+      if (isAlreadySelected) {
+        // Track deselection
+        analytics.trackEvent('priority_deselected', {
+          category: 'voting',
+          label: priorityId,
+          priority_title: priority?.title,
+          position: prev.indexOf(priorityId) + 1
+        });
         return prev.filter(id => id !== priorityId);
       } else if (prev.length < 3) {
+        // Track selection
+        analytics.trackEvent('priority_selected', {
+          category: 'voting',
+          label: priorityId,
+          priority_title: priority?.title,
+          position: prev.length + 1
+        });
         return [...prev, priorityId];
+      } else {
+        // Track attempt to select more than 3
+        analytics.trackEvent('max_selections_reached', {
+          category: 'voting',
+          label: 'selection_limit'
+        });
       }
       return prev;
     });
@@ -38,8 +74,16 @@ export default function VotePage() {
     if (selectedPriorities.length !== 3 || hasVoted) return;
 
     setIsSubmitting(true);
+    const startTime = Date.now();
     
     try {
+      // Track vote submission start
+      analytics.trackEvent('vote_submission_started', {
+        category: 'voting',
+        selected_count: selectedPriorities.length,
+        selected_priorities: selectedPriorities.join(',')
+      });
+      
       // Store votes locally
       storage.setVotes(selectedPriorities);
       storage.incrementVotes(selectedPriorities);
@@ -52,18 +96,29 @@ export default function VotePage() {
       });
 
       if (response.ok) {
+        const completionTime = Date.now() - startTime;
+        
+        // Track successful vote
+        analytics.trackVote(selectedPriorities, completionTime);
+        analytics.trackTiming('vote_completion', completionTime, 'voting');
+        
         setHasVoted(true);
+        // Show email capture after successful vote
         setTimeout(() => {
-          router.push('/resultaten');
-        }, 2000);
+          setShowEmailCapture(true);
+        }, 1500);
       }
     } catch (error) {
       console.error('Vote submission failed:', error);
+      
+      // Track error
+      analytics.trackError(`Vote submission failed: ${error}`, false);
+      
       // Still mark as voted locally for MVP
       setHasVoted(true);
       setTimeout(() => {
-        router.push('/resultaten');
-      }, 2000);
+        setShowEmailCapture(true);
+      }, 1500);
     } finally {
       setIsSubmitting(false);
     }
@@ -183,19 +238,25 @@ export default function VotePage() {
       </div>
 
       <div className="text-center mt-8">
-        <button
-          onClick={handleSubmit}
-          disabled={selectedPriorities.length !== 3 || isSubmitting}
-          className={`
-            px-8 py-4 rounded-lg font-semibold text-lg transition-colors
-            ${selectedPriorities.length === 3 && !isSubmitting
-              ? 'bg-[#FF6B00] text-white hover:bg-[#E55A00]' 
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }
-          `}
+        <ClickTracker
+          name="vote_submit_button"
+          category="voting"
+          data={{ selections_count: selectedPriorities.length }}
         >
-          {isSubmitting ? 'Bezig met stemmen...' : `Stem Nu (${selectedPriorities.length}/3)`}
-        </button>
+          <button
+            onClick={handleSubmit}
+            disabled={selectedPriorities.length !== 3 || isSubmitting}
+            className={`
+              px-8 py-4 rounded-lg font-semibold text-lg transition-colors
+              ${selectedPriorities.length === 3 && !isSubmitting
+                ? 'bg-[#FF6B00] text-white hover:bg-[#E55A00]' 
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }
+            `}
+          >
+            {isSubmitting ? 'Bezig met stemmen...' : `Stem Nu (${selectedPriorities.length}/3)`}
+          </button>
+        </ClickTracker>
         
         {selectedPriorities.length > 0 && selectedPriorities.length < 3 && (
           <p className="text-sm text-gray-500 mt-2">
@@ -203,6 +264,26 @@ export default function VotePage() {
           </p>
         )}
       </div>
+
+      {/* Email Capture Modal */}
+      <EmailCapture
+        isOpen={showEmailCapture}
+        onClose={() => {
+          setShowEmailCapture(false);
+          // Navigate to results after email capture closes
+          setTimeout(() => {
+            router.push('/resultaten');
+          }, 500);
+        }}
+        trigger="vote_complete"
+      />
+      
+      {/* Onboarding Modal */}
+      <OnboardingModal
+        isOpen={shouldShowOnboarding}
+        onComplete={completeOnboarding}
+        onSkip={skipOnboarding}
+      />
     </div>
   );
 }

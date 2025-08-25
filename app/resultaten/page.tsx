@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { defaultPriorities } from '@/lib/priorities';
 import { storage } from '@/lib/storage';
+import ShareCard from '@/components/ShareCard';
 
 export default function ResultsPage() {
   const [results, setResults] = useState<typeof defaultPriorities>([]);
@@ -197,39 +198,17 @@ export default function ResultsPage() {
           </div>
 
           {/* Share Results */}
-          <div className="mt-12 text-center bg-blue-50 rounded-lg p-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              Deel deze resultaten
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Laat anderen ook zien wat Nederland belangrijk vindt
-            </p>
-            
-            <div className="flex gap-4 justify-center flex-wrap">
-              <button
-                onClick={() => {
-                  const text = `Top 3 prioriteiten Nederland:\n1. ${results[0]?.title} (${results[0]?.votes} stemmen)\n2. ${results[1]?.title} (${results[1]?.votes} stemmen)\n3. ${results[2]?.title} (${results[2]?.votes} stemmen)\n\nStem ook: ${window.location.origin}`;
-                  if (navigator.share) {
-                    navigator.share({ text });
-                  } else {
-                    navigator.clipboard.writeText(text);
-                  }
-                }}
-                className="bg-[#0052CC] text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-              >
-                📱 Deel via App
-              </button>
-              
-              <button
-                onClick={() => {
-                  const url = `https://wa.me/?text=${encodeURIComponent(`Zie de live prioriteiten van Nederland: ${window.location.href}`)}`;
-                  window.open(url, '_blank');
-                }}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors"
-              >
-                💬 WhatsApp
-              </button>
-            </div>
+          <div className="mt-12">
+            <ShareCard
+              title={`Top prioriteiten Nederland deze week`}
+              description={totalVotes > 0 ? 
+                `1. ${results[0]?.title} (${results[0]?.votes} stemmen)\n2. ${results[1]?.title} (${results[1]?.votes} stemmen)\n3. ${results[2]?.title} (${results[2]?.votes} stemmen)\n\nTotaal: ${totalVotes} stemmen` :
+                'Zie de live resultaten van Nederland\'s prioriteiten en stem ook mee!'
+              }
+              hashtags={['NederlandStemt', 'Democratie', 'Prioriteiten']}
+              type="vote_result"
+              showPreview={false}
+            />
           </div>
         </>
       )}

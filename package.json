@@ -6,22 +6,28 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "type-check": "tsc --noEmit",
+    "analyze": "ANALYZE=true npm run build",
+    "perf": "npm run build && npm run start & sleep 5 && curl -o /dev/null -s -w '%{time_total}' http://localhost:3000 && pkill -f 'next start'"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "jsonwebtoken": "^9.0.2",
+    "next": "15.5.0",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.0"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.0",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

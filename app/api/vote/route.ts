@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { defaultPriorities } from '@/lib/priorities';
+import { sanitizeInput } from '@/lib/security';
 
 // In-memory storage for MVP (will be replaced with database)
 const voteStorage: { [priorityId: string]: number } = {};
@@ -15,8 +16,43 @@ interface Proposal {
 
 const proposalStorage: Proposal[] = [];
 
+// Rate limiting storage (in production, use Redis)
+const rateLimitStorage: { [key: string]: { count: number, lastReset: number } } = {};
+
+function checkServerRateLimit(ip: string, maxRequests: number = 10, windowMs: number = 60000): boolean {
+  const now = Date.now();
+  const key = `rate_limit_${ip}`;
+  
+  if (!rateLimitStorage[key]) {
+    rateLimitStorage[key] = { count: 0, lastReset: now };
+  }
+  
+  const rateLimit = rateLimitStorage[key];
+  
+  // Reset window if expired
+  if (now - rateLimit.lastReset > windowMs) {
+    rateLimit.count = 0;
+    rateLimit.lastReset = now;
+  }
+  
+  rateLimit.count++;
+  return rateLimit.count <= maxRequests;
+}
+
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const ip = request.headers.get('x-forwarded-for') || 
+               request.headers.get('x-real-ip') || 
+               'unknown';
+    
+    if (!checkServerRateLimit(ip, 20, 60000)) { // 20 requests per minute
+      return NextResponse.json(
+        { error: 'Rate limit exceeded. Please try again later.' },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { priorities, action, proposalId } = body;
 
@@ -64,11 +100,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Rate limiting (basic IP-based for MVP)
-    const ip = request.headers.get('x-forwarded-for') || 
-               request.headers.get('x-real-ip') || 
-               'unknown';
-    
     // For MVP, we'll trust localStorage to handle duplicate votes
     // In production, implement proper rate limiting
 

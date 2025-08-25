@@ -26,7 +26,9 @@ export function addDemoData() {
     'democratie': 34
   };
 
-  localStorage.setItem('nederland-stemt-vote-counts', JSON.stringify(demoVotes));
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('nederland-stemt-vote-counts', JSON.stringify(demoVotes));
+  }
   
   console.log('Demo data added! Total votes:', Object.values(demoVotes).reduce((a, b) => a + b, 0));
 }

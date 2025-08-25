@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { checkRateLimit, sanitizeInput } from '@/lib/security';
 
 interface Proposal {
   id: string;
@@ -24,13 +25,34 @@ export default function AdminPage() {
     }
   }, [isAuthenticated]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'NederlandBeslist2025') {
-      setIsAuthenticated(true);
-      setError('');
-    } else {
-      setError('Incorrect password');
+    
+    // Rate limiting check
+    if (!checkRateLimit('admin_login', 5)) {
+      setError('Te veel inlogpogingen. Probeer over een minuut opnieuw.');
+      return;
+    }
+    
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+      
+      if (response.ok) {
+        const { token } = await response.json();
+        localStorage.setItem('admin_token', token);
+        setIsAuthenticated(true);
+        setError('');
+      } else {
+        setError('Incorrect password');
+      }
+    } catch (error) {
+      setError('Login failed. Please try again.');
     }
   };
 
