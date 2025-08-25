@@ -1,0 +1,19 @@
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0052CC;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B00;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Chart bars -->
+  <rect x="3" y="16" width="3" height="5" fill="#FF6B00"/>
+  <rect x="7" y="12" width="3" height="9" fill="url(#chartGradient)"/>
+  <rect x="11" y="8" width="3" height="13" fill="#0052CC"/>
+  <rect x="15" y="14" width="3" height="7" fill="#8B5CF6"/>
+  <rect x="19" y="10" width="3" height="11" fill="#FF6B00"/>
+  
+  <!-- Trend line -->
+  <path d="M4.5 17 L8.5 13 L12.5 9 L16.5 15 L20.5 11" stroke="#FF6B00" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+</svg>

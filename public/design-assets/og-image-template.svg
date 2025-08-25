@@ -1,0 +1,71 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ogGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#004699;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#0052CC;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#FF6B00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E55A00;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.85" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#ogGradient)"/>
+  
+  <!-- Floating elements -->
+  <circle cx="100" cy="100" r="40" fill="white" opacity="0.1"/>
+  <circle cx="1100" cy="150" r="30" fill="white" opacity="0.08"/>
+  <circle cx="200" cy="500" r="25" fill="white" opacity="0.12"/>
+  <circle cx="1000" cy="450" r="35" fill="white" opacity="0.09"/>
+  
+  <!-- Main content card -->
+  <rect x="100" y="100" width="1000" height="430" rx="20" fill="url(#cardGradient)"/>
+  
+  <!-- Logo area -->
+  <circle cx="200" cy="200" r="35" fill="url(#ogGradient)" opacity="0.2"/>
+  <rect x="170" y="180" width="60" height="40" rx="6" fill="url(#ogGradient)" opacity="0.8"/>
+  <rect x="175" y="185" width="50" height="3" fill="white"/>
+  <rect x="175" y="190" width="40" height="3" fill="white"/>
+  <rect x="175" y="195" width="50" height="3" fill="white"/>
+  <rect x="175" y="200" width="35" height="3" fill="white"/>
+  <path d="M200 198 L205 203 L215 188" stroke="#FF6B00" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Main title -->
+  <text x="280" y="190" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#0052CC">Nederland Stemt</text>
+  <text x="280" y="230" font-family="Arial, sans-serif" font-size="24" fill="#666">De stem van Nederland. Elke week.</text>
+  
+  <!-- Stats section -->
+  <rect x="150" y="280" width="250" height="120" rx="10" fill="white" opacity="0.7"/>
+  <text x="170" y="310" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#0052CC">Deze Week</text>
+  <text x="170" y="340" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#FF6B00">1,247</text>
+  <text x="170" y="365" font-family="Arial, sans-serif" font-size="16" fill="#666">Stemmen</text>
+  <text x="170" y="385" font-family="Arial, sans-serif" font-size="14" fill="#666">20 Prioriteiten</text>
+  
+  <!-- Top priorities preview -->
+  <rect x="450" y="280" width="500" height="120" rx="10" fill="white" opacity="0.7"/>
+  <text x="470" y="310" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#0052CC">Top Prioriteiten</text>
+  
+  <!-- Priority bars -->
+  <rect x="470" y="325" width="300" height="8" rx="4" fill="#f0f0f0"/>
+  <rect x="470" y="325" width="240" height="8" rx="4" fill="#FF6B00"/>
+  <text x="780" y="335" font-family="Arial, sans-serif" font-size="14" fill="#333">Woningmarkt 67%</text>
+  
+  <rect x="470" y="345" width="300" height="8" rx="4" fill="#f0f0f0"/>
+  <rect x="470" y="345" width="180" height="8" rx="4" fill="#0052CC"/>
+  <text x="780" y="355" font-family="Arial, sans-serif" font-size="14" fill="#333">Zorgkosten 54%</text>
+  
+  <rect x="470" y="365" width="300" height="8" rx="4" fill="#f0f0f0"/>
+  <rect x="470" y="365" width="150" height="8" rx="4" fill="#8B5CF6"/>
+  <text x="780" y="375" font-family="Arial, sans-serif" font-size="14" fill="#333">Klimaat 41%</text>
+  
+  <!-- Call to action -->
+  <rect x="400" y="460" width="400" height="50" rx="25" fill="#FF6B00"/>
+  <text x="600" y="490" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">Stem Nu →</text>
+  
+  <!-- Website URL -->
+  <text x="600" y="560" font-family="Arial, sans-serif" font-size="16" fill="#333" text-anchor="middle" opacity="0.8">nederland-stemt.nl</text>
+</svg>
