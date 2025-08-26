@@ -1,9 +1,13 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm run build || true",
+  "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "regions": ["ams1"],
+  "functions": {
+    "app/**/*.ts": {
+      "runtime": "nodejs20.x"
+    }
+  },
   "env": {
     "NODE_ENV": "production"
   },
