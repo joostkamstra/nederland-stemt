@@ -89,7 +89,7 @@ export default function ResultsPage() {
       </div>
 
       {totalVotes === 0 ? (
-        <div className="text-center bg-gray-50 rounded-lg p-12">
+        <div className="text-center bg-blue-50 rounded-lg p-12">
           <div className="text-6xl mb-4">📊</div>
           <h2 className="text-xl font-semibold text-gray-900 mb-2">
             Nog geen stemmen

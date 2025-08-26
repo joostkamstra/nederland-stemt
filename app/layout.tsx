@@ -72,7 +72,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl">
-      <body className="bg-gray-50">
+      <body className="bg-white">
         {/* Skip to main content link for keyboard navigation */}
         <a 
           href="#main-content" 
