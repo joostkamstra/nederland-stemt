@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default function CookiesPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">

@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { checkRateLimit, sanitizeInput } from '@/lib/security';
+
+export const dynamic = 'force-dynamic';
 
 interface Proposal {
   id: string;

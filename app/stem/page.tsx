@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
+export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 import { useRouter } from 'next/navigation';
 import { defaultPriorities } from '@/lib/priorities';

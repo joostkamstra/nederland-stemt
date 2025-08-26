@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { checkRateLimit } from '@/lib/security';
 
+export const dynamic = 'force-dynamic';
+
 interface EmailSignup {
   id: string;
   email: string;
