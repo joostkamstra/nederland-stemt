@@ -55,6 +55,14 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+
+  // Mobile viewport
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
   
   // Language and region
   alternates: {
@@ -82,38 +90,38 @@ export default function RootLayout({
         </a>
         
         <nav className="bg-white dark:bg-gray-800 shadow-sm border-b border-blue-100 dark:border-gray-700" role="navigation" aria-label="Hoofdnavigatie">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-20">
-              <div className="flex items-center">
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16 sm:h-20">
+              <div className="flex items-center min-w-0">
                 <Link 
                   href="/" 
-                  className="text-2xl font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg px-3 py-2 transition-colors duration-200"
+                  className="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg px-2 sm:px-3 py-2 transition-colors duration-200 truncate"
                   aria-label="Nederland Stemt - Naar homepage"
                 >
-                  🇳🇱 Nederland Stemt
+                  🇳🇱 <span className="hidden xs:inline">Nederland </span>Stemt
                 </Link>
               </div>
-              <div className="flex items-center space-x-2 lg:space-x-6">
+              <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-6">
                 <Link 
                   href="/stem" 
-                  className="inline-flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg font-semibold transition-all duration-200"
+                  className="inline-flex items-center px-2 sm:px-4 py-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg font-semibold transition-all duration-200"
                   aria-label="Ga naar stempagina"
                 >
                   Stem
                 </Link>
                 <Link 
                   href="/resultaten" 
-                  className="inline-flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg font-semibold transition-all duration-200"
+                  className="inline-flex items-center px-2 sm:px-4 py-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg font-semibold transition-all duration-200"
                   aria-label="Bekijk stemresultaten"
                 >
-                  Resultaten
+                  <span className="hidden sm:inline">Resultaten</span><span className="sm:hidden">📊</span>
                 </Link>
                 <Link 
                   href="/nieuw" 
-                  className="inline-flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg font-semibold transition-all duration-200"
+                  className="inline-flex items-center px-2 sm:px-4 py-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg font-semibold transition-all duration-200"
                   aria-label="Dien nieuw voorstel in"
                 >
-                  Voorstel
+                  <span className="hidden sm:inline">Voorstel</span><span className="sm:hidden">💡</span>
                 </Link>
                 <HelpButton />
               </div>
