@@ -36,51 +36,52 @@ export default function Home() {
   return (
     <>
       {/* Structured Data */}
-      {structuredData && (
+      {structuredData && structuredData.length > 0 && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(structuredData)
           }}
+          suppressHydrationWarning
         />
       )}
       
       {/* Premium Hero Section with Dutch Heritage Colors */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-orange-50">
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-orange-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="max-w-7xl mx-auto px-4 py-16 sm:py-24">
           <div className="text-center">
             {/* Premium Badge */}
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-8">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium mb-8">
               🇳🇱 Officieel Burgerinitiatief voor Democratische Participatie
             </div>
             
             {/* Main Heading */}
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              <span className="text-blue-600">De stem</span> van Nederland.
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
+              <span className="text-blue-600 dark:text-blue-400">De stem</span> van Nederland.
               <br className="hidden sm:block" />
-              <span className="text-orange-500">Elke week.</span>
+              <span className="text-orange-500 dark:text-orange-400">Elke week.</span>
             </h1>
             
             {/* Subheading */}
-            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
               Stem op de belangrijkste prioriteiten voor Nederland. 
-              <span className="font-medium text-gray-900">Geen partijpolitiek</span>, gewoon jouw stem.
+              <span className="font-medium text-gray-900 dark:text-gray-100">Geen partijpolitiek</span>, gewoon jouw stem.
             </p>
             
             {/* Stats */}
-            <div className="flex justify-center items-center space-x-8 mb-10 text-gray-600">
+            <div className="flex justify-center items-center space-x-8 mb-10 text-gray-600 dark:text-gray-400">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">{totalVotes}+</div>
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{totalVotes}+</div>
                 <div className="text-sm">Stemmen</div>
               </div>
-              <div className="w-px h-12 bg-gray-300"></div>
+              <div className="w-px h-12 bg-gray-300 dark:bg-gray-600"></div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-500">17M</div>
+                <div className="text-2xl font-bold text-orange-500 dark:text-orange-400">17M</div>
                 <div className="text-sm">Nederlanders</div>
               </div>
-              <div className="w-px h-12 bg-gray-300"></div>
+              <div className="w-px h-12 bg-gray-300 dark:bg-gray-600"></div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">100%</div>
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">100%</div>
                 <div className="text-sm">Transparant</div>
               </div>
             </div>
@@ -89,7 +90,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link 
                 href="/stem"
-                className="inline-flex items-center px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl group"
+                className="inline-flex items-center px-8 py-4 bg-blue-600 dark:bg-blue-500 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 shadow-lg hover:shadow-xl group"
                 aria-label="Ga nu stemmen op Nederland's prioriteiten"
               >
                 <span>Stem Nu</span>
@@ -99,7 +100,7 @@ export default function Home() {
               </Link>
               <Link 
                 href="/resultaten"
-                className="inline-flex items-center px-8 py-4 bg-white text-gray-900 text-lg font-semibold rounded-lg border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200"
+                className="inline-flex items-center px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-lg font-semibold rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200"
                 aria-label="Bekijk huidige stemresultaten"
               >
                 Bekijk Resultaten
@@ -109,39 +110,39 @@ export default function Home() {
         </div>
         
         {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-blue-100 rounded-full opacity-50"></div>
-        <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-32 h-32 bg-orange-100 rounded-full opacity-30"></div>
+        <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-blue-100 dark:bg-blue-900 rounded-full opacity-50 dark:opacity-20"></div>
+        <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-32 h-32 bg-orange-100 dark:bg-orange-900 rounded-full opacity-30 dark:opacity-20"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Stats */}
-        <section className="bg-white rounded-lg shadow-sm p-6 mb-8" aria-labelledby="stats-heading">
+        <section className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8" aria-labelledby="stats-heading">
         <h2 id="stats-heading" className="sr-only">Platform statistieken</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
           <div>
-            <div className="text-3xl font-bold text-[#0052CC]" aria-label={`${totalVotes} stemmen`}>
+            <div className="text-3xl font-bold text-[#0052CC] dark:text-blue-400" aria-label={`${totalVotes} stemmen`}>
               {totalVotes}
             </div>
-            <div className="text-gray-600">Stemmen deze week</div>
+            <div className="text-gray-600 dark:text-gray-300">Stemmen deze week</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-[#0052CC]" aria-label="20 prioriteiten beschikbaar">
+            <div className="text-3xl font-bold text-[#0052CC] dark:text-blue-400" aria-label="20 prioriteiten beschikbaar">
               20
             </div>
-            <div className="text-gray-600">Prioriteiten</div>
+            <div className="text-gray-600 dark:text-gray-300">Prioriteiten</div>
           </div>
           <div className="md:col-span-1 col-span-2">
-            <div className="text-3xl font-bold text-[#0052CC]" aria-label="100 procent transparant">
+            <div className="text-3xl font-bold text-[#0052CC] dark:text-blue-400" aria-label="100 procent transparant">
               100%
             </div>
-            <div className="text-gray-600">Transparant</div>
+            <div className="text-gray-600 dark:text-gray-300">Transparant</div>
           </div>
         </div>
       </section>
 
       {/* Top Priorities */}
       <section className="mb-8" aria-labelledby="top-priorities-heading">
-        <h2 id="top-priorities-heading" className="text-2xl font-bold text-gray-900 mb-6">
+        <h2 id="top-priorities-heading" className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
           Top 5 Prioriteiten Deze Week
         </h2>
         <ol className="space-y-4" role="list">
@@ -150,37 +151,37 @@ export default function Home() {
             return (
               <li 
                 key={priority.id} 
-                className="bg-white rounded-lg p-4 shadow-sm"
+                className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm"
                 role="listitem"
               >
                 <article>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
                       <span 
-                        className="text-2xl font-bold text-[#FF6B00]" 
+                        className="text-2xl font-bold text-[#FF6B00] dark:text-orange-400" 
                         aria-label={`Positie ${index + 1}`}
                       >
                         {index + 1}
                       </span>
                       <div>
-                        <h3 className="font-semibold text-gray-900">{priority.title}</h3>
-                        <p className="text-sm text-gray-600">{priority.description}</p>
+                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">{priority.title}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{priority.description}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-semibold text-gray-900">
+                      <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                         {priority.votes} stemmen
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-gray-600 dark:text-gray-400">
                         {percentage.toFixed(1)}%
                       </div>
                     </div>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2" role="progressbar" 
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2" role="progressbar" 
                        aria-valuenow={percentage} aria-valuemin={0} aria-valuemax={100} 
                        aria-label={`${percentage.toFixed(1)}% van de stemmen`}>
                     <div 
-                      className="bg-[#0052CC] h-2 rounded-full transition-all duration-500"
+                      className="bg-[#0052CC] dark:bg-blue-500 h-2 rounded-full transition-all duration-500"
                       style={{ width: `${Math.min(percentage, 100)}%` }}
                     />
                   </div>
@@ -192,25 +193,25 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="text-center bg-blue-50 rounded-lg p-8" aria-labelledby="cta-heading">
-        <h2 id="cta-heading" className="text-2xl font-bold text-gray-900 mb-4">
+      <section className="text-center bg-blue-50 dark:bg-gray-800 rounded-lg p-8" aria-labelledby="cta-heading">
+        <h2 id="cta-heading" className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
           Laat jouw stem horen
         </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
           Elke week verzamelen we de prioriteiten van Nederland. 
           De resultaten gaan rechtstreeks naar de Tweede Kamer.
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
           <Link 
             href="/stem"
-            className="bg-[#FF6B00] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#E55A00] focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors min-w-[120px]"
+            className="bg-[#FF6B00] dark:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#E55A00] dark:hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-300 dark:focus:ring-orange-600 transition-colors min-w-[120px]"
             aria-label="Begin met stemmen op prioriteiten"
           >
             Stem Nu
           </Link>
           <Link 
             href="/resultaten"
-            className="bg-white text-[#0052CC] border border-[#0052CC] px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors min-w-[120px]"
+            className="bg-white dark:bg-gray-700 text-[#0052CC] dark:text-blue-400 border border-[#0052CC] dark:border-blue-400 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-600 transition-colors min-w-[120px]"
             aria-label="Bekijk huidige stemresultaten"
           >
             Bekijk Resultaten

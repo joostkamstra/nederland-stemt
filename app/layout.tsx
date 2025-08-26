@@ -71,8 +71,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl">
-      <body className="bg-white">
+    <html lang="nl" className="">
+      <body className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         {/* Skip to main content link for keyboard navigation */}
         <a 
           href="#main-content" 
@@ -81,13 +81,13 @@ export default function RootLayout({
           Ga naar hoofdinhoud
         </a>
         
-        <nav className="bg-white shadow-sm border-b border-blue-100" role="navigation" aria-label="Hoofdnavigatie">
+        <nav className="bg-white dark:bg-gray-800 shadow-sm border-b border-blue-100 dark:border-gray-700" role="navigation" aria-label="Hoofdnavigatie">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-20">
               <div className="flex items-center">
                 <Link 
                   href="/" 
-                  className="text-2xl font-bold text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-3 py-2 transition-colors duration-200"
+                  className="text-2xl font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg px-3 py-2 transition-colors duration-200"
                   aria-label="Nederland Stemt - Naar homepage"
                 >
                   🇳🇱 Nederland Stemt
@@ -96,21 +96,21 @@ export default function RootLayout({
               <div className="flex items-center space-x-2 lg:space-x-6">
                 <Link 
                   href="/stem" 
-                  className="inline-flex items-center px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg font-semibold transition-all duration-200"
+                  className="inline-flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg font-semibold transition-all duration-200"
                   aria-label="Ga naar stempagina"
                 >
                   Stem
                 </Link>
                 <Link 
                   href="/resultaten" 
-                  className="inline-flex items-center px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg font-semibold transition-all duration-200"
+                  className="inline-flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg font-semibold transition-all duration-200"
                   aria-label="Bekijk stemresultaten"
                 >
                   Resultaten
                 </Link>
                 <Link 
                   href="/nieuw" 
-                  className="inline-flex items-center px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg font-semibold transition-all duration-200"
+                  className="inline-flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg font-semibold transition-all duration-200"
                   aria-label="Dien nieuw voorstel in"
                 >
                   Voorstel
@@ -123,20 +123,20 @@ export default function RootLayout({
         <main id="main-content" className="min-h-screen" role="main" tabIndex={-1}>
           {children}
         </main>
-        <footer className="bg-gradient-to-br from-blue-50 to-orange-50 border-t border-blue-100 mt-16">
+        <footer className="bg-gradient-to-br from-blue-50 to-orange-50 dark:from-gray-800 dark:to-gray-900 border-t border-blue-100 dark:border-gray-700 mt-16">
           <div className="max-w-7xl mx-auto px-4 py-12 text-center">
             <div className="mb-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Nederland Stemt</h2>
-              <p className="text-gray-700 font-medium">Onafhankelijk burgerinitiatief voor democratische participatie</p>
-              <p className="text-sm text-gray-600 mt-1">Geen partijpolitiek, geen commerciële belangen</p>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Nederland Stemt</h2>
+              <p className="text-gray-700 dark:text-gray-300 font-medium">Onafhankelijk burgerinitiatief voor democratische participatie</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Geen partijpolitiek, geen commerciële belangen</p>
             </div>
             <div className="flex justify-center space-x-8 text-sm">
-              <Link href="/privacy" className="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200">Privacy</Link>
-              <Link href="/terms" className="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200">Voorwaarden</Link>
-              <Link href="/cookies" className="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200">Cookies</Link>
+              <Link href="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200">Privacy</Link>
+              <Link href="/terms" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200">Voorwaarden</Link>
+              <Link href="/cookies" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200">Cookies</Link>
             </div>
-            <div className="mt-6 pt-6 border-t border-blue-200">
-              <p className="text-xs text-gray-500">© 2025 Nederland Stemt. Transparante democratie voor iedereen.</p>
+            <div className="mt-6 pt-6 border-t border-blue-200 dark:border-gray-700">
+              <p className="text-xs text-gray-500 dark:text-gray-500">© 2025 Nederland Stemt. Transparante democratie voor iedereen.</p>
             </div>
           </div>
         </footer>
