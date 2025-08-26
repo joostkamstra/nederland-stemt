@@ -45,27 +45,77 @@ export default function Home() {
         />
       )}
       
-      <div className="max-w-4xl mx-auto px-4 py-12">
-      {/* Hero Section */}
-      <header className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          De stem van Nederland. Elke week.
-        </h1>
-        <p className="text-xl text-gray-600 mb-8">
-          Stem op de belangrijkste prioriteiten voor Nederland. 
-          Geen partijpolitiek, gewoon jouw stem.
-        </p>
-        <Link 
-          href="/stem"
-          className="inline-block bg-[#FF6B00] text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-[#E55A00] focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors"
-          aria-label="Ga nu stemmen op Nederland's prioriteiten"
-        >
-          → Stem Nu
-        </Link>
-      </header>
+      {/* Premium Hero Section with Dutch Heritage Colors */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-orange-50">
+        <div className="max-w-7xl mx-auto px-4 py-16 sm:py-24">
+          <div className="text-center">
+            {/* Premium Badge */}
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-8">
+              🇳🇱 Officieel Burgerinitiatief voor Democratische Participatie
+            </div>
+            
+            {/* Main Heading */}
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              <span className="text-blue-600">De stem</span> van Nederland.
+              <br className="hidden sm:block" />
+              <span className="text-orange-500">Elke week.</span>
+            </h1>
+            
+            {/* Subheading */}
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Stem op de belangrijkste prioriteiten voor Nederland. 
+              <span className="font-medium text-gray-900">Geen partijpolitiek</span>, gewoon jouw stem.
+            </p>
+            
+            {/* Stats */}
+            <div className="flex justify-center items-center space-x-8 mb-10 text-gray-600">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">{totalVotes}+</div>
+                <div className="text-sm">Stemmen</div>
+              </div>
+              <div className="w-px h-12 bg-gray-300"></div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-orange-500">17M</div>
+                <div className="text-sm">Nederlanders</div>
+              </div>
+              <div className="w-px h-12 bg-gray-300"></div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-green-600">100%</div>
+                <div className="text-sm">Transparant</div>
+              </div>
+            </div>
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link 
+                href="/stem"
+                className="inline-flex items-center px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl group"
+                aria-label="Ga nu stemmen op Nederland's prioriteiten"
+              >
+                <span>Stem Nu</span>
+                <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </Link>
+              <Link 
+                href="/resultaten"
+                className="inline-flex items-center px-8 py-4 bg-white text-gray-900 text-lg font-semibold rounded-lg border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200"
+                aria-label="Bekijk huidige stemresultaten"
+              >
+                Bekijk Resultaten
+              </Link>
+            </div>
+          </div>
+        </div>
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-blue-100 rounded-full opacity-50"></div>
+        <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-32 h-32 bg-orange-100 rounded-full opacity-30"></div>
+      </div>
 
-      {/* Stats */}
-      <section className="bg-white rounded-lg shadow-sm p-6 mb-8" aria-labelledby="stats-heading">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Stats */}
+        <section className="bg-white rounded-lg shadow-sm p-6 mb-8" aria-labelledby="stats-heading">
         <h2 id="stats-heading" className="sr-only">Platform statistieken</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
           <div>
@@ -167,7 +217,7 @@ export default function Home() {
           </Link>
         </div>
       </section>
-    </div>
+      </div>
     </>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export default function NotFound() {
   return (

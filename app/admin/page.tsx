@@ -96,32 +96,43 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-orange-50">
         <div className="max-w-md w-full mx-4">
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-              Admin Panel
-            </h1>
-            <form onSubmit={handleLogin} className="space-y-4">
+          <div className="bg-white rounded-xl shadow-lg border border-blue-100 p-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-4">
+                🔐 Beveiligde Toegang
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Admin Panel
+              </h1>
+              <p className="text-gray-600">Nederland Stemt Beheer</p>
+            </div>
+            <form onSubmit={handleLogin} className="space-y-6">
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                  Password
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-3">
+                  Beheerderswachtwoord
                 </label>
                 <input
                   type="password"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0052CC] focus:border-[#0052CC] outline-none"
+                  className="w-full px-4 py-4 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 text-lg"
+                  placeholder="Voer wachtwoord in..."
                   required
                 />
-                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                {error && (
+                  <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-red-600 text-sm font-medium">{error}</p>
+                  </div>
+                )}
               </div>
               <button
                 type="submit"
-                className="w-full bg-[#0052CC] text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg hover:shadow-xl text-lg"
               >
-                Login
+                Toegang Verkrijgen
               </button>
             </form>
           </div>
@@ -131,91 +142,105 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Admin Panel - Proposals
-          </h1>
+          <div>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-3">
+              👨‍💼 Admin Dashboard
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900">
+              Voorstellen Beheer
+            </h1>
+            <p className="text-gray-600 mt-2">Beheer ingediende voorstellen voor Nederland Stemt</p>
+          </div>
           <button
             onClick={() => setIsAuthenticated(false)}
-            className="text-gray-500 hover:text-gray-700"
+            className="inline-flex items-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 font-medium transition-colors duration-200"
           >
-            Logout
+            🚪 Uitloggen
           </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-xl shadow-lg border border-blue-100 overflow-hidden">
           {proposals.length === 0 ? (
-            <div className="p-8 text-center">
-              <p className="text-gray-500">No proposals submitted yet.</p>
+            <div className="p-12 text-center">
+              <div className="text-6xl mb-4">📝</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Geen voorstellen</h3>
+              <p className="text-gray-600">Er zijn nog geen voorstellen ingediend.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50">
+                <thead className="bg-gradient-to-r from-blue-50 to-orange-50 border-b border-blue-100">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Title
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                      Voorstel
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Category
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                      Categorie
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Submitted
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                      Ingediend
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                      Acties
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-gray-100">
                   {proposals.map((proposal) => (
-                    <tr key={proposal.id}>
-                      <td className="px-6 py-4">
+                    <tr key={proposal.id} className="hover:bg-blue-25 transition-colors duration-200">
+                      <td className="px-6 py-6">
                         <div>
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-base font-semibold text-gray-900 mb-1">
                             {proposal.title}
                           </div>
-                          <div className="text-sm text-gray-500 mt-1">
+                          <div className="text-sm text-gray-600 leading-relaxed">
                             {proposal.description}
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                      <td className="px-6 py-6 whitespace-nowrap">
+                        <span className="px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800">
                           {proposal.category}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(proposal.submittedAt).toLocaleDateString('nl-NL')}
+                      <td className="px-6 py-6 whitespace-nowrap text-sm text-gray-600 font-medium">
+                        {new Date(proposal.submittedAt).toLocaleDateString('nl-NL', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      <td className="px-6 py-6 whitespace-nowrap">
+                        <span className={`px-3 py-1 text-sm font-semibold rounded-full ${
                           proposal.status === 'approved' ? 'bg-green-100 text-green-800' :
                           proposal.status === 'rejected' ? 'bg-red-100 text-red-800' :
                           'bg-yellow-100 text-yellow-800'
                         }`}>
-                          {proposal.status}
+                          {proposal.status === 'approved' ? '✅ Goedgekeurd' :
+                           proposal.status === 'rejected' ? '❌ Afgewezen' :
+                           '⏳ In behandeling'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <td className="px-6 py-6 whitespace-nowrap">
                         {proposal.status === 'pending' && (
-                          <div className="flex space-x-2">
+                          <div className="flex space-x-3">
                             <button
                               onClick={() => handleApprove(proposal.id)}
-                              className="text-green-600 hover:text-green-900 bg-green-50 hover:bg-green-100 px-3 py-1 rounded"
+                              className="inline-flex items-center px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 font-medium transition-all duration-200 border border-green-200 hover:border-green-300"
                             >
-                              Approve
+                              ✅ Goedkeuren
                             </button>
                             <button
                               onClick={() => handleReject(proposal.id)}
-                              className="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded"
+                              className="inline-flex items-center px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 font-medium transition-all duration-200 border border-red-200 hover:border-red-300"
                             >
-                              Reject
+                              ❌ Afwijzen
                             </button>
                           </div>
                         )}
