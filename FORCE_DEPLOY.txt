@@ -1,0 +1,7 @@
+DEPLOYMENT TRIGGER - $(date)
+
+This file forces a new deployment to Vercel.
+Premium styling should be deployed with this push.
+
+Commit: 3ecf50d
+Features: Dutch heritage colors, premium gradients, modern navigation
